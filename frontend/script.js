@@ -1,5 +1,5 @@
 // Set backend URL (for local testing use localhost, change in production)
-const backendURL = 'http://localhost:5000/api/files';
+const backendURL = 'https://storex-qmum.onrender.com/api/files';
 
 // Upload Form
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
@@ -35,7 +35,6 @@ document.getElementById('accessForm').addEventListener('submit', async (e) => {
     accessCode: form.accessCode.value
   };
 
-  
   try {
     const response = await fetch(`${backendURL}/access`, {
       method: 'POST',
@@ -53,13 +52,16 @@ document.getElementById('accessForm').addEventListener('submit', async (e) => {
     alert('Error accessing file');
   }
 });
+
+// Delete Form
 document.getElementById('deleteForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const body = {
-      filename: form.filename.value,
-      accessCode: form.accessCode.value
-    };
+  e.preventDefault();
+  const form = e.target;
+  const body = {
+    filename: form.filename.value,
+    accessCode: form.accessCode.value
+  };
+  try {
     const response = await fetch(`${backendURL}/delete`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -67,5 +69,8 @@ document.getElementById('deleteForm').addEventListener('submit', async (e) => {
     });
     const data = await response.json();
     alert(data.message);
-  });
-  
+  } catch (err) {
+    console.error(err);
+    alert('Error deleting file');
+  }
+});
