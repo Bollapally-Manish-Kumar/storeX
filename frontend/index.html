@@ -5,8 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>storeX</title>
   <link rel="stylesheet" href="styles.css" />
-</head>
+  <link rel="icon" href="img/favicon1.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="img/favicon1.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="img/favicon1.png" type="image/png" sizes="64x64">
+  </head>
 <body>
+  <!-- Logo Section -->
+  <header>
+    <img src="img/favicon.png" alt="storeX Logo" class="logo">
+    <p class="createdByText">Created by Bollapally Manish Kumar</p>
+  </header>
+
   <h1>storeX - Secure PDF Storage</h1>
 
   <h2>Upload PDF</h2>
@@ -26,15 +35,19 @@
   </form>
 
   <h2>Delete PDF</h2>
-<form id="deleteForm">
-  <input type="text" name="filename" placeholder="Filename" required><br>
-  <input type="password" name="accessCode" placeholder="Access Code" required><br>
-  <button type="submit">Delete</button>
-</form>
+  <form id="deleteForm">
+    <input type="text" name="filename" placeholder="Filename" required><br>
+    <input type="password" name="accessCode" placeholder="Access Code" required><br>
+    <button type="submit">Delete</button>
+  </form>
 
-
+  <!-- Footer -->
   <footer>
-    <p>Developed by Bollapally Manish Kumar. Contact: manishkumarbollaplly@gmail.com</p>
+    <div class="footer-content">
+      <img src="img/favicon.png" alt="storeX Logo" class="footer-logo">
+      <p>Developed by Bollapally Manish Kumar. <br>For any queries and projects, contact: <a href="mailto:manishkumarbollaplly@gmail.com">manishkumarbollaplly@gmail.com</a></p>
+      <p>&copy; 2025 storeX. All rights reserved.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
