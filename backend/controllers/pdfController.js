@@ -77,12 +77,16 @@ exports.accessPDF = async (req, res) => {
     file.downloadCount++;
     if (file.maxDownloads && file.downloadCount >= file.maxDownloads) {
       await deleteFile(file);
-      return res.json({ message: 'File accessed and deleted after reaching download limit', url: file.file_url });
+
+      // Even when deleting, append .pdf
+      return res.json({ message: 'File accessed and deleted after reaching download limit', url: `${file.file_url}.pdf` });
     } else {
       await file.save();
     }
 
-    res.json({ url: file.file_url });
+    // ✅ Append .pdf to force browser PDF rendering
+    res.json({ url: `${file.file_url}.pdf` });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server Error: Unable to access file' });
