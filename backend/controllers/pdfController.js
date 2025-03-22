@@ -6,99 +6,116 @@ const QRCode = require('qrcode');
 
 // Cloudinary Config
 cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
 });
 
-// Multer Storage (Temporary local storage)
+// Multer Storage (Temporary memory storage)
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Upload PDF
+// ===== Upload PDF ===== //
 exports.uploadPDF = [
-    upload.single('file'),
-    async (req, res) => {
-        try {
-            const { filename, accessCode, tags, expiryDate, maxDownloads } = req.body;
-            const hashedCode = await bcrypt.hash(accessCode, 10);
+  upload.single('file'),
+  async (req, res) => {
+    try {
+      const { filename, accessCode, tags, expiryDate, maxDownloads } = req.body;
 
-            // Upload to Cloudinary
-            const result = await cloudinary.uploader.upload_stream(
-                { resource_type: 'raw', public_id: filename },
-                async (error, result) => {
-                    if (error) return res.status(500).json({ message: error.message });
+      // Hash the access code
+      const hashedCode = await bcrypt.hash(accessCode, 10);
 
-                    const newFile = new File({
-                        filename,
-                        cloudinary_id: result.public_id,
-                        file_url: result.secure_url,
-                        accessCode: hashedCode,
-                        tags: tags ? tags.split(',') : [],
-                        expiryDate,
-                        maxDownloads
-                    });
+      // Upload to Cloudinary
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { resource_type: 'raw', public_id: filename },
+        async (error, result) => {
+          if (error) return res.status(500).json({ message: error.message });
 
-                    await newFile.save();
+          // Save to DB
+          const newFile = new File({
+            filename,
+            cloudinary_id: result.public_id,
+            file_url: result.secure_url,
+            accessCode: hashedCode,
+            tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+            expiryDate,
+            maxDownloads,
+            downloadCount: 0
+          });
 
-                    // Generate QR
-                    const qrData = `File: ${filename}, Access Code: ${accessCode}, Link: ${result.secure_url}`;
-                    const qrCode = await QRCode.toDataURL(qrData);
+          await newFile.save();
 
-                    res.json({ message: 'Uploaded!', file: newFile, qrCode });
-                }
-            );
-            result.end(req.file.buffer);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
+          // Generate QR Code
+          const qrData = `Filename: ${filename}\nAccess Code: ${accessCode}\nLink: ${result.secure_url}`;
+          const qrCode = await QRCode.toDataURL(qrData);
+
+          res.json({ message: 'File Uploaded Successfully!', file: newFile, qrCode });
         }
+      );
+
+      uploadStream.end(req.file.buffer);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server Error: Unable to upload file' });
     }
+  }
 ];
 
-// Access PDF
+// ===== Access PDF ===== //
 exports.accessPDF = async (req, res) => {
-    try {
-        const { filename, accessCode } = req.body;
-        const file = await File.findOne({ filename });
+  try {
+    const { filename, accessCode } = req.body;
 
-        if (!file) return res.status(404).json({ message: 'File not found' });
+    const file = await File.findOne({ filename });
+    if (!file) return res.status(404).json({ message: 'File not found' });
 
-        const isMatch = await bcrypt.compare(accessCode, file.accessCode);
-        if (!isMatch) return res.status(401).json({ message: 'Incorrect access code' });
+    // Check Access Code
+    const isMatch = await bcrypt.compare(accessCode, file.accessCode);
+    if (!isMatch) return res.status(401).json({ message: 'Incorrect Access Code' });
 
-        file.downloadCount++;
-        if (file.maxDownloads && file.downloadCount >= file.maxDownloads) {
-            await deleteFile(file);
-        } else {
-            await file.save();
-        }
-
-        res.json({ url: file.file_url });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+    // Increment download count & check maxDownloads
+    file.downloadCount++;
+    if (file.maxDownloads && file.downloadCount >= file.maxDownloads) {
+      await deleteFile(file);
+      return res.json({ message: 'File accessed and deleted after reaching download limit', url: file.file_url });
+    } else {
+      await file.save();
     }
+
+    res.json({ url: file.file_url });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error: Unable to access file' });
+  }
 };
 
-// Delete PDF
+// ===== Delete PDF ===== //
 exports.deletePDF = async (req, res) => {
-    try {
-        const { filename, accessCode } = req.body;
-        const file = await File.findOne({ filename });
-        if (!file) return res.status(404).json({ message: 'File not found' });
+  try {
+    const { filename, accessCode } = req.body;
 
-        const isMatch = await bcrypt.compare(accessCode, file.accessCode);
-        if (!isMatch) return res.status(401).json({ message: 'Incorrect access code' });
+    const file = await File.findOne({ filename });
+    if (!file) return res.status(404).json({ message: 'File not found' });
 
-        await deleteFile(file);
-        res.json({ message: 'File deleted' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+    // Check Access Code
+    const isMatch = await bcrypt.compare(accessCode, file.accessCode);
+    if (!isMatch) return res.status(401).json({ message: 'Incorrect Access Code' });
+
+    await deleteFile(file);
+    res.json({ message: 'File deleted successfully!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error: Unable to delete file' });
+  }
 };
 
-// Helper
+// ===== Helper Function ===== //
 async function deleteFile(file) {
+  try {
     await cloudinary.uploader.destroy(file.cloudinary_id, { resource_type: 'raw' });
     await File.deleteOne({ _id: file._id });
+    console.log(`Deleted file: ${file.filename}`);
+  } catch (err) {
+    console.error('Error deleting file:', err.message);
+  }
 }
-

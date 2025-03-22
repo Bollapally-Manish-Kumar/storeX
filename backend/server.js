@@ -15,6 +15,9 @@ dotenv.config();
 // Initialize app
 const app = express();
 
+// 🔥 Fix: Trust Proxy for Render & Netlify (IMPORTANT)
+app.set('trust proxy', 1); // Tells Express to trust proxy headers like X-Forwarded-For
+
 // Middleware
 app.use(express.json());
 
@@ -36,8 +39,8 @@ app.use('/api/files', fileRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.log('MongoDB connection error:', err));
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log('MongoDB connection error:', err));
 
 // Cloudinary Config
 cloudinary.config({
