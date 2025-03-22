@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>storeX</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>storeX - Secure PDF Storage</h1>
+
+  <h2>Upload PDF</h2>
+  <form id="uploadForm">
+    <input type="text" name="filename" placeholder="Filename" required><br>
+    <input type="password" name="accessCode" placeholder="Access Code" required><br>
+    <input type="text" name="tags" placeholder="Tags (comma separated)"><br>
+    <input type="file" name="file" accept="application/pdf" required><br>
+    <button type="submit">Upload</button>
+  </form>
+
+  <h2>Access PDF</h2>
+  <form id="accessForm">
+    <input type="text" name="filename" placeholder="Filename" required><br>
+    <input type="password" name="accessCode" placeholder="Access Code" required><br>
+    <button type="submit">Access</button>
+  </form>
+
+  <h2>Delete PDF</h2>
+<form id="deleteForm">
+  <input type="text" name="filename" placeholder="Filename" required><br>
+  <input type="password" name="accessCode" placeholder="Access Code" required><br>
+  <button type="submit">Delete</button>
+</form>
+
+
+  <footer>
+    <p>Developed by Bollapally Manish Kumar. Contact: manishkumarbollaplly@gmail.com</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

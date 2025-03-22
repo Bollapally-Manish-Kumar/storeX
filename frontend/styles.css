@@ -1,0 +1,85 @@
+/* Apply a gradient background to the entire page */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #2c003e, #000000);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  /* Animate the gradient background */
+  @keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Style the main heading */
+  h1 {
+    font-size: 3em;
+    margin-top: 20px;
+  }
+  
+  /* Style section headings */
+  h2 {
+    font-size: 2em;
+    margin-top: 40px;
+  }
+  
+  /* Style form elements */
+  form {
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Style input fields */
+  input, button {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+  
+  /* Style input fields */
+  input {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+  
+  /* Style buttons */
+  button {
+    background: #6200ea;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  /* Button hover effect */
+  button:hover {
+    background: #3700b3;
+  }
+  
+  /* Style footer */
+  footer {
+    margin-top: 40px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border-top: 1px solid #6200ea;
+  }
+  
+  /* Style footer text */
+  footer p {
+    margin: 0;
+    font-size: 0.9em;
+  }
+  
