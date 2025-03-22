@@ -17,7 +17,11 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+// CORS - Allow all origins temporarily
+app.use(cors({
+    origin: '*'
+}));
 
 // Rate Limiting Middleware
 const limiter = rateLimit({
@@ -30,7 +34,7 @@ app.use(limiter);
 // Routes
 app.use('/api/files', fileRoutes);
 
-// MongoDB Connection (Fixed: Removed deprecated options!)
+// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log('MongoDB connection error:', err));
