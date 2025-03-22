@@ -11,7 +11,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET
 });
 
-// Multer Storage (Temporary memory storage)
+// Multer Setup
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -25,13 +25,13 @@ exports.uploadPDF = [
       // Hash the access code
       const hashedCode = await bcrypt.hash(accessCode, 10);
 
-      // Upload to Cloudinary
+      // Upload to Cloudinary (change resource_type to auto for PDF rendering)
       const uploadStream = cloudinary.uploader.upload_stream(
-        { resource_type: 'raw', public_id: filename },
+        { resource_type: 'auto', public_id: filename, format: 'pdf' }, // key change
         async (error, result) => {
           if (error) return res.status(500).json({ message: error.message });
 
-          // Save to DB
+          // Save file metadata to DB
           const newFile = new File({
             filename,
             cloudinary_id: result.public_id,
@@ -69,23 +69,21 @@ exports.accessPDF = async (req, res) => {
     const file = await File.findOne({ filename });
     if (!file) return res.status(404).json({ message: 'File not found' });
 
-    // Check Access Code
+    // Verify Access Code
     const isMatch = await bcrypt.compare(accessCode, file.accessCode);
     if (!isMatch) return res.status(401).json({ message: 'Incorrect Access Code' });
 
-    // Increment download count & check maxDownloads
+    // Increment download count & handle maxDownloads
     file.downloadCount++;
     if (file.maxDownloads && file.downloadCount >= file.maxDownloads) {
       await deleteFile(file);
-
-      // Even when deleting, append .pdf
-      return res.json({ message: 'File accessed and deleted after reaching download limit', url: `${file.file_url}.pdf` });
+      return res.json({ message: 'File accessed and deleted after reaching download limit', url: file.file_url });
     } else {
       await file.save();
     }
 
-    // ✅ Append .pdf to force browser PDF rendering
-    res.json({ url: `${file.file_url}.pdf` });
+    // Serve PDF in iframe directly
+    res.json({ url: `${file.file_url}.pdf` });  // Append `.pdf` if needed
 
   } catch (err) {
     console.error(err);
@@ -101,7 +99,7 @@ exports.deletePDF = async (req, res) => {
     const file = await File.findOne({ filename });
     if (!file) return res.status(404).json({ message: 'File not found' });
 
-    // Check Access Code
+    // Verify Access Code
     const isMatch = await bcrypt.compare(accessCode, file.accessCode);
     if (!isMatch) return res.status(401).json({ message: 'Incorrect Access Code' });
 
