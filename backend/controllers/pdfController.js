@@ -25,9 +25,9 @@ exports.uploadPDF = [
       // Hash the access code
       const hashedCode = await bcrypt.hash(accessCode, 10);
 
-      // Upload to Cloudinary (change resource_type to auto for PDF rendering)
+      // Upload to Cloudinary
       const uploadStream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', public_id: filename, format: 'pdf' }, // key change
+        { resource_type: 'auto', public_id: filename, format: 'pdf' },
         async (error, result) => {
           if (error) return res.status(500).json({ message: error.message });
 
@@ -82,8 +82,8 @@ exports.accessPDF = async (req, res) => {
       await file.save();
     }
 
-    // Serve PDF in iframe directly
-    res.json({ url: `${file.file_url}.pdf` });  // Append `.pdf` if needed
+    // Send correct Cloudinary PDF URL
+    res.json({ url: file.file_url });
 
   } catch (err) {
     console.error(err);
