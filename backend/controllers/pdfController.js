@@ -27,7 +27,7 @@ exports.uploadPDF = [
 
       // Upload to Cloudinary as a raw file
       const uploadStream = cloudinary.uploader.upload_stream(
-        { resource_type: 'raw', public_id: filename },
+        { resource_type: 'auto', public_id: filename },
         async (error, result) => {
           if (error) return res.status(500).json({ message: error.message });
 
