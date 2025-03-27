@@ -25,9 +25,9 @@ exports.uploadPDF = [
       // Hash the access code
       const hashedCode = await bcrypt.hash(accessCode, 10);
 
-      // Upload to Cloudinary
+      // Upload to Cloudinary as a raw file
       const uploadStream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', public_id: filename, format: 'pdf' },
+        { resource_type: 'raw', public_id: filename },
         async (error, result) => {
           if (error) return res.status(500).json({ message: error.message });
 
@@ -82,7 +82,7 @@ exports.accessPDF = async (req, res) => {
       await file.save();
     }
 
-    // Send correct Cloudinary PDF URL
+    // Ensure Cloudinary URL serves the correct file format
     res.json({ url: file.file_url });
 
   } catch (err) {

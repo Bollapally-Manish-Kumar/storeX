@@ -51,21 +51,8 @@ document.getElementById('accessForm').addEventListener('submit', async (e) => {
     const data = await response.json();
 
     if (data.url) {
-      // Open PDF in fullscreen iframe
-      const pdfWindow = window.open('', '_blank');
-      pdfWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <title>PDF Viewer</title>
-          <style>html, body { margin: 0; height: 100%; overflow: hidden; }</style>
-        </head>
-        <body>
-          <iframe src="${data.url}" width="100%" height="100%" style="border: none;"></iframe>
-        </body>
-        </html>
-      `);
-      pdfWindow.document.close();
+      // Open PDF in a new tab instead of an iframe for proper rendering
+      window.open(data.url, '_blank');
     } else {
       alert(data.message);
     }
