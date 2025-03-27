@@ -25,9 +25,13 @@ exports.uploadPDF = [
       // Hash the access code
       const hashedCode = await bcrypt.hash(accessCode, 10);
 
-      // Upload to Cloudinary as a raw file
+      // Upload to Cloudinary (Force it to be recognized as a PDF)
       const uploadStream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', public_id: filename },
+        {
+          resource_type: 'auto',
+          format: 'pdf', // 🔥 Force PDF format
+          public_id: filename
+        },
         async (error, result) => {
           if (error) return res.status(500).json({ message: error.message });
 
@@ -82,7 +86,7 @@ exports.accessPDF = async (req, res) => {
       await file.save();
     }
 
-    // Ensure Cloudinary URL serves the correct file format
+    // Return correct Cloudinary URL
     res.json({ url: file.file_url });
 
   } catch (err) {
@@ -111,10 +115,10 @@ exports.deletePDF = async (req, res) => {
   }
 };
 
-// ===== Helper Function ===== //
+// ===== Helper Function: Delete File from Cloudinary & DB ===== //
 async function deleteFile(file) {
   try {
-    await cloudinary.uploader.destroy(file.cloudinary_id, { resource_type: 'raw' });
+    await cloudinary.uploader.destroy(file.cloudinary_id, { resource_type: 'auto' }); // 🔥 Changed from 'raw' to 'auto'
     await File.deleteOne({ _id: file._id });
     console.log(`Deleted file: ${file.filename}`);
   } catch (err) {
