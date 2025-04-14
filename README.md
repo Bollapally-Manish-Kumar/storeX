@@ -3,7 +3,7 @@
 
 # storeX - Secure Cloud File Storage 🚀🔒
 
-![storeX Logo](https://raw.githubusercontent.com/Bollapally-Manish-Kumar/storeX/master/frontend/img/favicon.png)
+<img src="https://raw.githubusercontent.com/Bollapally-Manish-Kumar/storeX/master/frontend/img/favicon.png" width="150px" height="150px" />
 
 
 
