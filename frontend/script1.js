@@ -1,7 +1,9 @@
-const backendURL = 'https://storex-qmum.onrender.com/api/files';
+const backendURL = 'https://storex-qmum.onrender.com/api/files'; // Replace with your backend URL
 
+// Upload Form
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const form = e.target;
   const formData = new FormData();
   formData.append('filename', form.filename.value);
@@ -23,8 +25,10 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   }
 });
 
+// Access Form
 document.getElementById('accessForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const form = e.target;
   const body = {
     filename: form.filename.value,
@@ -45,7 +49,9 @@ document.getElementById('accessForm').addEventListener('submit', async (e) => {
     }
 
     const data = await response.json();
+
     if (data.url) {
+      // Open PDF in a new tab instead of an iframe for proper rendering
       window.open(data.url, '_blank');
     } else {
       alert(data.message);
@@ -56,8 +62,10 @@ document.getElementById('accessForm').addEventListener('submit', async (e) => {
   }
 });
 
+// Delete Form
 document.getElementById('deleteForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const form = e.target;
   const body = {
     filename: form.filename.value,
