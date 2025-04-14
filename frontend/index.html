@@ -2,46 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>storeX - Secure File Storage</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>storeX</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="img/favicon1.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="img/favicon1.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="img/favicon1.png" type="image/png" sizes="64x64">
 </head>
 <body>
-  <div class="container">
-    <h1>📁 storeX - Secure File Upload & Access</h1>
+  <!-- Logo Section -->
+  <header>
+    <img src="img/favicon.png" alt="storeX Logo" class="logo">
+    <p class="createdByText">Created by Bollapally Manish Kumar</p>
+  </header>
 
-    <section>
-      <h2>Upload Image/Video</h2>
-      <form id="uploadForm">
-        <input type="text" name="filename" placeholder="Filename" required /><br />
-        <input type="password" name="accessCode" placeholder="Access Code" required /><br />
-        <input type="text" name="tags" placeholder="Tags (comma separated)" /><br />
-        <input type="file" name="file" accept="image/*,video/*" required /><br />
-        <button type="submit">Upload</button>
-      </form>
-    </section>
+  <h1>storeX - Secure Media Storage</h1>
 
-    <section>
-      <h2>Access File</h2>
-      <form id="accessForm">
-        <input type="text" name="filename" placeholder="Filename" required /><br />
-        <input type="password" name="accessCode" placeholder="Access Code" required /><br />
-        <button type="submit">Access</button>
-      </form>
-    </section>
+  <h2>Upload Media (Image/Video)</h2>
+  <form id="uploadForm">
+    <input type="text" name="filename" placeholder="Filename" required><br>
+    <input type="password" name="accessCode" placeholder="Access Code" required><br>
+    <input type="text" name="tags" placeholder="Tags (comma separated)"><br>
+    <input type="file" name="file" accept="image/*,video/*" required><br>
+    <button type="submit">Upload</button>
+  </form>
 
-    <section>
-      <h2>Delete File</h2>
-      <form id="deleteForm">
-        <input type="text" name="filename" placeholder="Filename" required /><br />
-        <input type="password" name="accessCode" placeholder="Access Code" required /><br />
-        <button type="submit">Delete</button>
-      </form>
-    </section>
-  </div>
+  <h2>Access Media</h2>
+  <form id="accessForm">
+    <input type="text" name="filename" placeholder="Filename" required><br>
+    <input type="password" name="accessCode" placeholder="Access Code" required><br>
+    <button type="submit">Access</button>
+  </form>
 
+  <h2>Delete Media</h2>
+  <form id="deleteForm">
+    <input type="text" name="filename" placeholder="Filename" required><br>
+    <input type="password" name="accessCode" placeholder="Access Code" required><br>
+    <button type="submit">Delete</button>
+  </form>
+
+  <!-- Footer -->
   <footer>
-    <p>Made with 💜 by Manish</p>
+    <div class="footer-content">
+      <img src="img/favicon.png" alt="storeX Logo" class="footer-logo">
+      <p>Developed by Bollapally Manish Kumar. <br>For any queries and projects, contact: <a href="mailto:manishkumarbollaplly@gmail.com">manishkumarbollaplly@gmail.com</a></p>
+      <p>&copy; 2025 storeX. All rights reserved.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
