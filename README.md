@@ -3,7 +3,9 @@
 
 # storeX - Secure Cloud File Storage 🚀🔒
 
-![storeX Logo](img/favicon.png) <!-- You can replace this with the actual logo URL -->
+![storeX Logo](https://raw.githubusercontent.com/Bollapally-Manish-Kumar/storeX/master/frontend/img/favicon.png)
+
+
 
 **storeX** is a secure, cloud-based file storage platform designed to allow users to upload, access, and delete files such as images, videos, and PDFs. The platform operates without requiring users to create accounts, making file management quick and easy. Each file uploaded is protected by a secret access code, ensuring privacy and security.
 
