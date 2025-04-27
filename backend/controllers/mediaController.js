@@ -25,7 +25,7 @@ exports.uploadMedia = [
 
       const uploadStream = cloudinary.uploader.upload_stream(
         {
-          resource_type: 'auto',
+          resource_type: 'auto', // Automatically detect the file type for upload
           public_id: filename
         },
         async (error, result) => {
@@ -106,7 +106,10 @@ exports.deleteMedia = async (req, res) => {
 
 async function deleteFile(file) {
   try {
-    await cloudinary.uploader.destroy(file.cloudinary_id, { resource_type: 'auto' });
+    // Specify resource_type based on file type; defaulting to 'auto' if not set
+    const resourceType = file.file_url.includes('image') ? 'image' : 'raw'; // Can adjust based on your file types
+
+    await cloudinary.uploader.destroy(file.cloudinary_id, { resource_type: resourceType });
     await File.deleteOne({ _id: file._id });
     console.log(`Deleted file: ${file.filename}`);
   } catch (err) {
