@@ -1,13 +1,16 @@
-/* Apply a gradient background to the entire page */
+/* Gradient background */
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #2c003e, #000000);
   background-size: 400% 400%;
   animation: gradientAnimation 15s ease infinite;
   color: #ffffff;
   text-align: center;
+  overflow-x: hidden;
+  position: relative; /* Ensures content is above the matrix canvas */
+  z-index: 0; /* Ensures content stays above the canvas */
 }
 
 /* Animate the gradient background */
@@ -17,90 +20,198 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* Style the logo */
+/* Matrix Canvas Background */
+#matrix-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Canvas stays behind content */
+  pointer-events: none; /* Canvas doesn't block interaction with content */
+}
+
+/* Header */
 header {
-  margin-top: 50px;
+  margin-top: 30px;
+  animation: fadeInDown 1s ease;
   text-align: center;
 }
 
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .logo {
-  width: 150px; /* Adjust as per your logo size */
+  width: 150px;
   height: auto;
 }
 
 .createdByText {
-  font-size: 1.2em;
-  margin-top: 10px;
+  font-size: 1.1em;
+  margin-top: 8px;
+  color: #bbbbbb;
 }
 
-/* Style the main heading */
+/* Main headings */
 h1 {
   font-size: 3em;
   margin-top: 20px;
+  animation: fadeIn 1.5s ease;
 }
 
-/* Style section headings */
 h2 {
   font-size: 2em;
-  margin-top: 40px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  animation: fadeIn 1.8s ease;
 }
 
-/* Style form elements */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Forms */
 form {
   margin: 20px auto;
-  padding: 20px;
+  padding: 25px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  border-radius: 12px;
   width: 90%;
-  max-width: 400px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  max-width: 450px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  animation: slideUp 1s ease;
 }
 
-/* Style input fields */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 input, button {
   width: calc(100% - 20px);
-  padding: 10px;
-  margin: 10px 0;
+  padding: 12px;
+  margin: 12px 0;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1em;
+  outline: none;
 }
 
-/* Style input fields */
 input {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
+  transition: all 0.3s ease;
 }
 
-/* Style buttons */
+input:focus {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 8px #6200ea;
+}
+
 button {
   background: #6200ea;
   color: #ffffff;
   cursor: pointer;
-  transition: background 0.3s;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #6200ea;
 }
 
-/* Button hover effect */
 button:hover {
   background: #3700b3;
+  box-shadow: 0 0 20px #9b00ff, 0 0 30px #6200ea;
+  transform: scale(1.05);
 }
 
-/* Regular footer (not fixed) */
+/* Footer */
 footer {
-  margin-top: 40px;
-  padding: 10px;
+  margin-top: 60px;
+  padding: 20px;
   background: rgba(0, 0, 0, 0.5);
   border-top: 1px solid #6200ea;
+  animation: fadeIn 2s ease;
 }
 
-/* Style footer text */
 footer p {
-  margin: 0;
-  font-size: 0.9em;
+  margin: 5px 0;
+  font-size: 0.95em;
+  color: #cccccc;
 }
-/* Footer logo */
+
 .footer-logo {
-  width: 100px; /* Reduced the width to 40px */
-  height: auto; /* Keep the aspect ratio intact */
+  width: 80px;
+  height: auto;
   margin-bottom: 10px;
+}
+
+/* Loading spinner */
+#spinner {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top: 6px solid #6200ea;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Binary Background */
+.binary-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.binary-background::before {
+  content: '0 1 0 1 1 0 0 1 1 0 1 0 1 0 0 1';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 5vw;
+  white-space: pre-wrap;
+  opacity: 0.05;
+  animation: floatBinary 20s linear infinite;
+  color: #ffffff;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* Floating binary animation */
+@keyframes floatBinary {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, -60%) rotate(180deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

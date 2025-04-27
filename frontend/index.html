@@ -4,20 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>storeX</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicon -->
   <link rel="icon" href="img/favicon12-removebg-preview.png" type="image/png" sizes="16x16">
   <link rel="icon" href="img/favicon12-removebg-preview.png" type="image/png" sizes="32x32">
   <link rel="icon" href="img/favicon12-removebg-preview.png" type="image/png" sizes="64x64">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
-  <!-- Logo Section -->
+  <!-- Matrix Canvas Background -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- Header -->
   <header>
     <img src="img/favicon.png" alt="storeX Logo" class="logo">
     <p class="createdByText">Created by Bollapally Manish Kumar</p>
   </header>
 
+  <!-- Main Title -->
   <h1>storeX - Secure Media Storage</h1>
 
+  <!-- Upload Form -->
   <h2>Upload Media (Image/Video)</h2>
   <form id="uploadForm">
     <input type="text" name="filename" placeholder="Filename" required><br>
@@ -27,6 +40,7 @@
     <button type="submit">Upload</button>
   </form>
 
+  <!-- Access Form -->
   <h2>Access Media</h2>
   <form id="accessForm">
     <input type="text" name="filename" placeholder="Filename" required><br>
@@ -34,6 +48,7 @@
     <button type="submit">Access</button>
   </form>
 
+  <!-- Delete Form -->
   <h2>Delete Media</h2>
   <form id="deleteForm">
     <input type="text" name="filename" placeholder="Filename" required><br>
@@ -41,15 +56,30 @@
     <button type="submit">Delete</button>
   </form>
 
+  <!-- Loading Spinner -->
+  <div id="spinner" style="display:none;">
+    <div class="spinner"></div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="footer-content">
       <img src="img/favicon.png" alt="storeX Logo" class="footer-logo">
-      <p>Developed by Bollapally Manish Kumar. <br>For any queries and projects, contact: <a href="mailto:manishkumarbollaplly@gmail.com">manishkumarbollaplly@gmail.com</a></p>
+      <p>Developed by Bollapally Manish Kumar. <br>For queries/projects: <a href="mailto:manishkumarbollaplly@gmail.com">manishkumarbollaplly@gmail.com</a></p>
       <p>&copy; 2025 storeX. All rights reserved.</p>
     </div>
   </footer>
 
+  <!-- Toastify.js for notifications -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+  <!-- VanillaTilt.js for parallax effects -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+
+  <!-- Your JS file -->
   <script src="script.js"></script>
+  <script src="matrix.js"></script>
+
 </body>
 </html>
