@@ -22,7 +22,8 @@ function draw() {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = '#0F0'; // Matrix green
+  //ctx.fillStyle = '#0F0'; // Matrix green
+  ctx.fillStyle = 'violet'; // Matrix green
   ctx.font = fontSize + 'px monospace';
 
   for (let i = 0; i < drops.length; i++) {
@@ -39,7 +40,7 @@ function draw() {
 }
 
 // Draw every 33ms (~30 frames per second)
-setInterval(draw, 33);
+setInterval(draw, 50); //previously it was 33
 
 // Handle screen resize
 window.addEventListener('resize', () => {
