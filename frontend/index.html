@@ -1,85 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StoreX</title>
+  <title>StoreX - Secure Cloud File Storage</title>
+  <meta name="description"
+    content="StoreX is a secure cloud-based file storage platform. Upload, access, and delete files without creating an account.">
 
   <!-- Favicon -->
-  <link rel="icon" href="img/favicon12-removebg-preview.png" type="image/png" sizes="16x16">
-  <link rel="icon" href="img/favicon12-removebg-preview.png" type="image/png" sizes="32x32">
-  <link rel="icon" href="img/favicon12-removebg-preview.png" type="image/png" sizes="64x64">
+  <link rel="icon" href="img/favicon12-removebg-preview.png" type="image/png">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Three.js for 3D -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <!-- 3D Canvas Background -->
+  <canvas id="threejs-canvas"></canvas>
+
   <!-- Matrix Canvas Background -->
   <canvas id="matrix-canvas"></canvas>
 
-  <!-- Header -->
-  <header>
-    <img src="img/favicon.png" alt="storeX Logo" class="logo">
-    <p class="createdByText">Created by Bollapally Manish Kumar</p>
-  </header>
+  <!-- Ambient Glow Effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
 
-  <!-- Main Title -->
-  <h1>StoreX - Secure Media Storage</h1>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <img src="img/favicon.png" alt="StoreX" class="nav-logo">
+      <span class="nav-title">StoreX</span>
+    </div>
+    <div class="nav-badge">Secure Cloud Storage</div>
+  </nav>
 
-  <!-- Upload Form -->
-  <h2>Upload Media (Image/Video)</h2>
-  <form id="uploadForm">
-    <input type="text" name="filename" placeholder="Filename" required><br>
-    <input type="password" name="accessCode" placeholder="Access Code" required><br>
-    <input type="text" name="tags" placeholder="Tags (comma separated)"><br>
-    <input type="file" name="file" accept="image/*,video/*" required><br>
-    <button type="submit">Upload</button>
-  </form>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">No Account Required</div>
+      <h1 class="hero-title">
+        <span class="gradient-text">Secure</span> Cloud Storage
+        <br>Made <span class="gradient-text">Simple</span>
+      </h1>
+      <p class="hero-subtitle">
+        Upload, access, and manage your files with military-grade encryption.
+        No sign-ups, no hassle — just pure security.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">256-bit</span>
+          <span class="stat-label">Encryption</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Private</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">Zero</span>
+          <span class="stat-label">Accounts</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card-1">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </div>
+        <span>Upload</span>
+      </div>
+      <div class="floating-card card-2">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </div>
+        <span>Secure</span>
+      </div>
+      <div class="floating-card card-3">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        </div>
+        <span>Access</span>
+      </div>
+      <div class="hero-orb"></div>
+    </div>
+  </section>
 
-  <!-- Access Form -->
-  <h2>Access Media</h2>
-  <form id="accessForm">
-    <input type="text" name="filename" placeholder="Filename" required><br>
-    <input type="password" name="accessCode" placeholder="Access Code" required><br>
-    <button type="submit">Access</button>
-  </form>
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps-container">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h3>Choose Your Keys</h3>
+          <p>Pick a unique filename and create a secret access code that only you know.</p>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h3>Upload Securely</h3>
+          <p>Your file is encrypted and stored safely in our cloud infrastructure.</p>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h3>Access Anytime</h3>
+          <p>Use your credentials to retrieve or delete your files whenever you need.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Delete Form -->
-  <h2>Delete Media</h2>
-  <form id="deleteForm">
-    <input type="text" name="filename" placeholder="Filename" required><br>
-    <input type="password" name="accessCode" placeholder="Access Code" required><br>
-    <button type="submit">Delete</button>
-  </form>
+  <!-- Forms Container -->
+  <section class="forms-section">
+    <!-- Upload Form -->
+    <div class="form-card" id="upload-section">
+      <div class="form-header">
+        <div class="form-icon upload-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </div>
+        <div>
+          <h2>Upload Media</h2>
+          <p>Images, videos, and documents</p>
+        </div>
+      </div>
+      <form id="uploadForm">
+        <div class="input-wrapper">
+          <label>Filename</label>
+          <div class="input-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
+            <input type="text" name="filename" placeholder="Enter a unique filename" required>
+          </div>
+        </div>
+        <div class="input-wrapper">
+          <label>Access Code</label>
+          <div class="input-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <input type="password" name="accessCode" placeholder="Create a secret code" required>
+          </div>
+        </div>
+        <div class="input-wrapper">
+          <label>Tags (Optional)</label>
+          <div class="input-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+              <line x1="7" y1="7" x2="7.01" y2="7" />
+            </svg>
+            <input type="text" name="tags" placeholder="photo, personal, 2024">
+          </div>
+        </div>
+        <div class="file-drop-zone">
+          <input type="file" name="file" id="fileInput" accept="image/*,video/*" required>
+          <div class="drop-content">
+            <div class="drop-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </div>
+            <p class="drop-text">Drop your file here or <span>browse</span></p>
+            <p class="drop-hint">Supports images and videos up to 100MB</p>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">
+          <span>Upload File</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Access & Delete Forms -->
+    <div class="form-row">
+      <!-- Access Form -->
+      <div class="form-card compact">
+        <div class="form-header">
+          <div class="form-icon access-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </div>
+          <h2>Access Media</h2>
+        </div>
+        <form id="accessForm">
+          <div class="input-wrapper">
+            <div class="input-field">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+              </svg>
+              <input type="text" name="filename" placeholder="Filename" required>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <div class="input-field">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <input type="password" name="accessCode" placeholder="Access Code" required>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn secondary">
+            <span>Access</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="7 10 12 15 17 10" />
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Delete Form -->
+      <div class="form-card compact">
+        <div class="form-header">
+          <div class="form-icon delete-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+              <line x1="10" y1="11" x2="10" y2="17" />
+              <line x1="14" y1="11" x2="14" y2="17" />
+            </svg>
+          </div>
+          <h2>Delete Media</h2>
+        </div>
+        <form id="deleteForm">
+          <div class="input-wrapper">
+            <div class="input-field">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+              </svg>
+              <input type="text" name="filename" placeholder="Filename" required>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <div class="input-field">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <input type="password" name="accessCode" placeholder="Access Code" required>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn danger">
+            <span>Delete</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
 
   <!-- Loading Spinner -->
   <div id="spinner" style="display:none;">
-    <div class="spinner"></div>
+    <div class="loader">
+      <div class="loader-ring"></div>
+      <div class="loader-ring"></div>
+      <div class="loader-ring"></div>
+      <span>Processing...</span>
+    </div>
   </div>
 
   <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <img src="img/favicon.png" alt="storeX Logo" class="footer-logo">
-      <p>Developed by Bollapally Manish Kumar. <br>For queries/projects: <a href="mailto:manishkumarbollaplly@gmail.com">manishkumarbollaplly@gmail.com</a></p>
-      <p>&copy; 2025 storeX. All rights reserved.</p>
+      <div class="footer-brand">
+        <img src="img/favicon.png" alt="StoreX" class="footer-logo">
+        <span>StoreX</span>
+      </div>
+      <p>Developed by <strong>Bollapally Manish Kumar</strong></p>
+      <p><a href="mailto:manishkumarbollaplly@gmail.com">manishkumarbollaplly@gmail.com</a></p>
+      <div class="footer-divider"></div>
+      <p class="copyright">2025 StoreX. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- Toastify.js for notifications -->
+  <!-- Scripts -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
-  <!-- VanillaTilt.js for parallax effects -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
-
-  <!-- Your JS file -->
   <script src="script.js"></script>
   <script src="matrix.js"></script>
+  <script src="three-scene.js"></script>
 
 </body>
+
 </html>
